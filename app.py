@@ -22,7 +22,6 @@ if uploaded_file is not None :
     data = bytes_data.decode("utf-8")
     df = preprocessor.preprocess(data )
 
-    st.dataframe(df)
     # Fetch Unique users
     user_list = df['user'].unique().tolist()
     
