@@ -1,5 +1,11 @@
 import re
 import pandas as pd
+# import helper
+import emoji
+
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+
+analyzer = SentimentIntensityAnalyzer()
 
 def preprocess(data ):
 
@@ -59,4 +65,20 @@ def preprocess(data ):
         else :
             period.append(str(hour)+"-"+str(hour+1))
     df['period'] = period
+
+    # Sentiment Analysis
+    df['sentiment'] = df['message'].apply(get_sentiment)
+
     return df
+
+
+
+def get_sentiment(text):
+    text = emoji.demojize(text, delimiters=(" ", " "))
+    scores = analyzer.polarity_scores(text)
+    if scores["compound"] >= 0.05:
+        return "Positive"
+    elif scores["compound"] <= -0.05:
+        return "Negative"
+    else:
+        return "Neutral"

@@ -5,6 +5,7 @@ import pandas as pd
 from collections import Counter
 import emoji
 
+
 extract = URLExtract()
 def fetch_stats(selected_user , df):
 
@@ -158,3 +159,9 @@ def get_streak(selected_user,df):
     max_streak_df = pd.DataFrame(user_max_streaks.items(), columns=["user", "max_streak"]).reset_index()
     max_streak_df.sort_values(by=['max_streak'],ascending=False, inplace=True)
     return max_streak_df.head()
+
+def filter_df(df,selected_user):
+    if(selected_user!='Overall'):
+        df = df[df['user']==selected_user]
+    df = df[~(df['message'].str.contains("omitted", case=False, na=False))]
+    return df

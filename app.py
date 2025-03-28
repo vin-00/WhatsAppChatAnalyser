@@ -22,6 +22,7 @@ if uploaded_file is not None :
     data = bytes_data.decode("utf-8")
     df = preprocessor.preprocess(data )
 
+    st.dataframe(df)
     # Fetch Unique users
     user_list = df['user'].unique().tolist()
     
@@ -66,6 +67,21 @@ if uploaded_file is not None :
         with col3 :
             st.header("Longest Message")
             st.title(longest_msg)
+
+        # Sentiment Analysis
+
+        st.title("Sentiment Analysis")
+        sent = helper.filter_df(df,selected_user)
+        plt.figure(figsize=(8, 5))
+        sns.countplot(data=sent, x="sentiment", palette={"Positive": "green", "Negative": "red", "Neutral": "blue"})
+        plt.xlabel("Sentiment")
+        plt.ylabel("Count")
+        plt.title("Sentiment Analysis of WhatsApp Messages")
+        st.pyplot(plt)
+
+        sentiment_counts = sent["sentiment"].value_counts()
+        st.write("### Sentiment Summary")
+        st.write(sentiment_counts)
 
 
         # Longest Streak
