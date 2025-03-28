@@ -14,8 +14,7 @@ st.set_page_config(
 
 st.title("WhatsApp Analytics")
 
-st.sidebar.title("Whatsapp Chat Analyzer")
-
+st.sidebar.title("Whatsapp Chat Analyzer") 
 uploaded_file = st.sidebar.file_uploader("Choose a file" , key='uploaded_file')
 
 if uploaded_file is not None :
@@ -323,5 +322,7 @@ if uploaded_file is not None :
             emoji_html += "</div>"
 
             st.markdown(emoji_html, unsafe_allow_html=True)
-            
+
+
+        
 
