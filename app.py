@@ -323,6 +323,8 @@ if uploaded_file is not None :
 
             st.markdown(emoji_html, unsafe_allow_html=True)
 
+st.markdown("---")  # Adds a horizontal line
 
+st.markdown("© 2025 WhatsApp Chat Analyser | Built with ❤️ by Vinay Khatri")
         
 
