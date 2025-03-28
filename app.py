@@ -93,7 +93,7 @@ if uploaded_file is not None :
         ax.spines["bottom"].set_color("white")  # Make bottom border white
         ax.spines["left"].set_color("white")
         ax.set_xlabel("")
-        ax.set_ylabel("")
+        ax.set_ylabel("Count of Messages")
         ax.spines["top"].set_visible(False)
         ax.spines["right"].set_visible(False)
 
