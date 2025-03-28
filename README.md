@@ -14,6 +14,7 @@ A powerful and interactive WhatsApp Chat Analyzer built with **Streamlit** that 
 - **Emoji & Word Analysis**: Find the most used emojis and visualize chat trends using a word cloud.
 - **Longest Streak**: Discover the longest consecutive messaging streak.
 - **User-Level Insights**: Analyze data for the whole group or focus on individual members.
+- **Sentiment Analysis**: Classify the messages into Positive , Neutral and Negative categories. 
 
 ## 📁 Supported Input
 
@@ -86,7 +87,6 @@ A powerful and interactive WhatsApp Chat Analyzer built with **Streamlit** that 
 
 ## 📌 Future Enhancements
 
-- Sentiment analysis of messages
 - Multi-chat comparison
 - More advanced filters and queries
 
