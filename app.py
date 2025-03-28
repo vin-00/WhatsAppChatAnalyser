@@ -12,7 +12,7 @@ st.set_page_config(
     layout="wide"  # Optional: Use "centered" or "wide"
 )
 
-st.title("WhatsApp Analytics")
+st.title("WhatsApp Chat Analytics")
 
 st.sidebar.title("Whatsapp Chat Analyzer") 
 uploaded_file = st.sidebar.file_uploader("Choose a file" , key='uploaded_file')
@@ -67,20 +67,37 @@ if uploaded_file is not None :
             st.header("Longest Message")
             st.title(longest_msg)
 
+
+        st.write("---")
         # Sentiment Analysis
 
         st.title("Sentiment Analysis")
-        sent = helper.filter_df(df,selected_user)
-        plt.figure(figsize=(8, 5))
-        sns.countplot(data=sent, x="sentiment", palette={"Positive": "green", "Negative": "red", "Neutral": "blue"})
-        plt.xlabel("Sentiment")
-        plt.ylabel("Count")
-        plt.title("Sentiment Analysis of WhatsApp Messages")
-        st.pyplot(plt)
 
-        sentiment_counts = sent["sentiment"].value_counts()
-        st.write("### Sentiment Summary")
-        st.write(sentiment_counts)
+        sent = helper.filter_df(df,selected_user)
+
+        if(selected_user=='Overall'):
+            most_positive , most_negative = helper.toxic_friendly(sent)
+            
+            st.subheader(f"Most Friendly User : {most_positive}")
+            st.subheader(f"Most Toxic User: {most_negative}")
+
+        fig , ax = plt.subplots()
+        fig.patch.set_facecolor("#0E1117")  
+        ax.set_facecolor("#0E1117")
+        sns.countplot(data= sent, x='sentiment', ax=ax, order=['Positive','Negative','Neutral'],hue='sentiment', palette="magma", legend = False)
+
+        plt.xticks(rotation='horizontal')
+        ax.tick_params(colors="white")  # Change axis ticks color
+        ax.xaxis.label.set_color("white")  # X-axis label color
+        ax.yaxis.label.set_color("white")  # Y-axis label color
+        ax.spines["bottom"].set_color("white")  # Make bottom border white
+        ax.spines["left"].set_color("white")
+        ax.set_xlabel("")
+        ax.set_ylabel("")
+        ax.spines["top"].set_visible(False)
+        ax.spines["right"].set_visible(False)
+
+        st.pyplot(fig)
 
 
         # Longest Streak
@@ -115,8 +132,6 @@ if uploaded_file is not None :
                 unsafe_allow_html=True
             )
 
-
-        
 
         # Timeline
 
@@ -246,6 +261,7 @@ if uploaded_file is not None :
                 st.pyplot(fig)
 
 
+        st.write("---")
         # Activity Map
         st.title("Activity Map")
 

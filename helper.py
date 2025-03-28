@@ -165,3 +165,20 @@ def filter_df(df,selected_user):
         df = df[df['user']==selected_user]
     df = df[~(df['message'].str.contains("omitted", case=False, na=False))]
     return df
+
+def toxic_friendly(df):
+    total_messages = df["user"].value_counts()
+
+    # Calculate positive and negative message counts per user
+    positive_counts = df[df["sentiment"] == "Positive"]["user"].value_counts()
+    negative_counts = df[df["sentiment"] == "Negative"]["user"].value_counts()
+
+    # Compute friendliness and toxicity scores
+    friendly_scores = (positive_counts / total_messages).fillna(0)
+    toxic_scores = (negative_counts / total_messages).fillna(0)
+
+    # Find the most friendly and most toxic users
+    most_friendly_user = friendly_scores.idxmax()
+    most_toxic_user = toxic_scores.idxmax()
+
+    return most_friendly_user , most_toxic_user
