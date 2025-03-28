@@ -6,6 +6,14 @@ from collections import Counter
 
 import random
 
+st.set_page_config(
+    page_title="WhatsAppChat Analyser",  # Title of the browser tab
+    page_icon="whatsapp.png",  # Emoji as favicon
+    layout="wide"  # Optional: Use "centered" or "wide"
+)
+
+st.title("WhatsApp Analytics")
+
 st.sidebar.title("Whatsapp Chat Analyzer")
 
 uploaded_file = st.sidebar.file_uploader("Choose a file" , key='uploaded_file')
