@@ -9,13 +9,23 @@ analyzer = SentimentIntensityAnalyzer()
 def preprocess(data ):
 
     type= 'Android'
+    format = "12"
     if(data.startswith("[")):
         type = 'IOS'
     
     pattern = r"\[\d{1,2}/\d{1,2}/\d{2},\s\d{1,2}:\d{2}:\d{2}\s(?:AM|PM)\]" 
+    pattern_24 = r"\[\d{2}/\d{2}/\d{2},\s\d{2}:\d{2}:\d{2}\]"
 
     if(type=='Android'):
         pattern = r"\d{2}/\d{2}/\d{2}, \d{1,2}:\d{2}\s?[ap]m\s-\s"
+        pattern_24 = r"\d{2}/\d{2}/\d{2},\s\d{2}:\d{2}\s-\s"
+
+    if re.search(pattern,data):
+        # It contains AM and PM
+        pattern = pattern
+    else:
+        pattern = pattern_24
+        format = "24"
 
     messages = re.split(pattern,data)[1:]
     dates = re.findall(pattern,data)
@@ -26,10 +36,19 @@ def preprocess(data ):
 
     if(type=='IOS'):
         df['message_date'] = df['message_date'].str.strip("[]")
-        df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %I:%M:%S %p")
+
+        if(format=="24"):
+            df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %H:%M:%S")
+        else:
+            df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %I:%M:%S %p")
     else :
         df['user_message'] = df['user_message'].str.lstrip('- ')
-        df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %I:%M %p - ")
+
+        if(format=="24"):
+            df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %H:%M - ")
+            
+        else:
+            df['message_date'] = pd.to_datetime(df['message_date'], format="%d/%m/%y, %I:%M %p - ")
 
     df.rename(columns={'message_date': 'date'} , inplace=True)
     users = []
